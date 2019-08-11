@@ -28,11 +28,15 @@ dht DHT;
 
 int sensorPin = A0;//pin the light sensor is connected to (analog)
 int entryCount = 1;//sets the initial count for the entry numbers
+int bigSoundAlg = A1;//for the bigsound sensor analog
+int bigSoundDigi = 3;//for the bigsound sensor digital pin
 
 const int chipSelect = 10;
 
 void setup() {
   //open Serial communication and wait for port to open
+  pinMode(bigSoundAlg, INPUT);
+  pinMode(bigSoundDigi, INPUT);
   Serial.begin(9600);
 
   Serial.print("Initializing SD card...");
@@ -49,7 +53,11 @@ void setup() {
 void loop() {
   //make a string for assembling the data to log
   String dataString = "";
+  float soundAnalog;
+  int soundDigital;
 
+  soundAnalog = analogRead(bigSoundAlg);
+  soundDigital = digitalRead(bigSoundDigi);
 
 
   //read two sensors and append to the string:
@@ -65,15 +73,33 @@ void loop() {
   //if the file is available, write to it:
   if(dataFile){
     dataFile.print("Entry: ");
+    Serial.print("Entry: ");
     dataFile.println(entryCount);
+    Serial.println(entryCount);
     dataFile.println("");
+    Serial.println("");
     dataFile.print("Temperature = ");
+    Serial.print("Temperature = ");
     dataFile.println(DHT.temperature);
+    Serial.println(DHT.temperature);
     dataFile.print("Humidity = ");
+    Serial.print("Humidity = ");
     dataFile.println(DHT.humidity);
+    Serial.println(DHT.humidity);
     dataFile.print("Light amount = ");
+    Serial.print("Light amount = ");
     dataFile.println(dataString);
+    Serial.println(dataString);
+    dataFile.print("Sound Analog: ");
+    Serial.print("Sound Analog: ");
+    dataFile.println(soundAnalog);
+    Serial.println(soundAnalog);
+    dataFile.print("Sound Digital: ");
+    Serial.print("Sound Digital: ");
+    dataFile.println(soundDigital);
+    Serial.println(soundDigital);
     dataFile.println("");
+    Serial.println("");
     
     dataFile.close();
     //print to the serial port too:
@@ -86,6 +112,6 @@ void loop() {
   entryCount = 1+entryCount;//keeps a tally of how many entries have been taken
   //while the arduino has been powered on. Note: if the arduino loses power, the count gets reset.
   
-  delay(1800000);//30 minutes
+  delay(60000);//1 minute
   
 }
