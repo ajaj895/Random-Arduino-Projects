@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "heltec.h" //for the board itself
 
-#define BAND 9144E5 //this is the setable frequency, this is actually 914 MHZ (914,000,000 hz)
+#define BAND 9144E5 //this is the setable frequency, this is actually 914 MHZ (914,400,000 hz)
 
 int counter = 0;//a sent packet counter
 String packet; //used for sending data 
